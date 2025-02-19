@@ -16,6 +16,10 @@
     <script src="/js/listgroup.js"></script>
     <script src="/js/message.js"></script>
 
+    <script>
+        var messageData = /*[[${message}]]*/ '';
+    </script>
+
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -51,16 +55,16 @@
                     </a>
 
                     <div class="list-group list-group-flush border-bottom scrollarea">
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
+                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true" th:each="user : ${users}" th:data-id="${user.id}">
                             <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
+                                <strong class="mb-1" th:text="${user.username}"></strong>
                                 <small>Wed</small>
                             </div>
                             <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
                                 date.
                             </div>
                         </a>
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
+                        <!-- <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
                             <div class="d-flex w-100 align-items-center justify-content-between">
                                 <strong class="mb-1">List group item heading</strong>
                                 <small>Tues</small>
@@ -159,19 +163,23 @@
                             <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
                                 date.
                             </div>
-                        </a>
+                        </a> -->
                     </div>
                 </div>
             </div>
 
-            <div id="chatcontainer">
-                <div id="chatBox">
+            <div class="container-fluid bg-white" id="chatcontainer">
+                <div class="d-flex flex-column" id="chatBox">
                     <div class="message received">Hi</div>
                     <div class="message sent">Hey</div>
                 </div>
 
-                <div id="chatInput">
-                    <input type="text">
+                <div class="" id="chatInput">
+                    <form class="input-group p-3 mb-3" id="chatForm" action="/api/v1/messages/new" method="post" >
+                        <input class="form-control" id="messageInput" type="text" placeholder="Type a message..." autocomplete="off">
+                        <button class="btn btn-outline-secondary " type="submit">Send</button>
+                    </form>
+                    
                 </div>
             </div>
         </div>

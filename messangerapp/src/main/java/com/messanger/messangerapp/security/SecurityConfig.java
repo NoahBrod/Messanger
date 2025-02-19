@@ -54,7 +54,8 @@ public class SecurityConfig {
                         }))
                 .logout((logout) -> logout.logoutSuccessUrl("/login?logout").permitAll())
                 .rememberMe((token) -> token
-                        .tokenValiditySeconds(300));
+                        .tokenValiditySeconds(300))
+                        .csrf((csrf) -> csrf.disable()).cors((cors) -> cors.disable());
 
         return http.build();
     }

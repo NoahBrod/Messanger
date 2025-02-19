@@ -1,24 +1,52 @@
-document.addEventListener("DOMContentLoaded", function () {
-    document.getElementById("chatForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent form from reloading the page
+let listItem = $("<a>");
+    listItem.addClass("list-group-item list-group-item-action py-3 lh-tight");
+    listItem.attr("aria-current","true");
+let headerDiv = $("<div>");
+    headerDiv.addClass("d-flex w-100 align-items-center justify-content-between");
+let innerHeaderSt = $("<strong>");
+    innerHeaderSt.addClass("mb-1");
+let innerHeaderSm = $("<small>");
+let subHead = $("<div>");
+    subHead.addClass("col-10 mb-1 small");
 
-        let inputField = document.getElementById("messageInput");
-        let messageText = inputField.value.trim();
+    
 
-        if (messageText !== "") {
-            let chatBox = document.getElementById("chatBox");
+function loadUsers() {
+    let listItem = $("<a>");
+    listItem.addClass("list-group-item list-group-item-action py-3 lh-tight");
+    listItem.attr("aria-current","true");
 
-            // Create message bubble
-            let messageDiv = document.createElement("div");
-            messageDiv.className = "message sent";
-            messageDiv.textContent = messageText;
+}
 
-            // Append message & scroll down
-            chatBox.appendChild(messageDiv);
-            chatBox.scrollTop = chatBox.scrollHeight;
+$(document).ready(function () {
+    $.get("/api/v1/messages/all", function (data, status) {
+        console.log("Data: " + data + "\nStatus: " + status);
+    });
 
-            // Clear input field
-            inputField.value = "";
+    console.log("Message from Thymeleaf:", messageData);
+
+    $("#chatForm").submit(function (event) {
+        event.preventDefault();
+        let inputField = $("#messageInput");
+        let messageText = inputField.val().trim();
+
+        if (messageText != "") {
+            let chatBox = $("#chatBox");
+            let messageDiv = $("<div>").addClass("message sent").text(messageText);
+
+            $.post("/api/v1/messages/new",
+                {
+                    message: "Donald Duck",
+                },
+                function (data, status) {
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+
+            chatBox.append(messageDiv);
+            chatBox.scrollTop(chatBox.prop("scrollHeight"));
+
+            inputField.val("");
+            console.log(inputField.value)
         }
     });
 });

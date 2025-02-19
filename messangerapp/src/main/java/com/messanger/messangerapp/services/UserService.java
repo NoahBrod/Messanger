@@ -1,5 +1,7 @@
 package com.messanger.messangerapp.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,10 @@ public class UserService {
         String password = passwordEncoder.encode(user.getPassword());
         user.setPassword(password);
         userRepo.save(user);
+    }
+
+    public List<User> getAll() {
+        return userRepo.findAll();
     }
 
 }
