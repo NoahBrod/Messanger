@@ -1,5 +1,6 @@
 package com.messanger.messangerapp.entities;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import jakarta.persistence.Entity;
@@ -16,16 +17,17 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Message {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String message;
     private UUID senderId;
-    private UUID recieverId;
+    private UUID receiverId;
+    private LocalDateTime timeStamp = LocalDateTime.now();
 
-    public Message(String message, UUID senderId, UUID reciverId) {
+    public Message(String message, UUID senderId, UUID receiverId) {
         this.message = message;
         this.senderId = senderId;
-        this.recieverId = reciverId;
+        this.receiverId = receiverId;
     }
 
     public Message(String message) {

@@ -39,7 +39,7 @@ public class SecurityConfig {
                         .requestMatchers("/profile", "/messages").hasRole("USER")
                         .anyRequest().authenticated())
                 .formLogin((form) -> form
-                        .loginPage("/login").defaultSuccessUrl("/", true)
+                        .loginPage("/login").defaultSuccessUrl("/messanger", true)
 
                         .permitAll().failureHandler(new AuthenticationFailureHandler() {
 

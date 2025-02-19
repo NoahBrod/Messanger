@@ -20,13 +20,16 @@ public class WebController {
 
     @GetMapping("/")
     public String home(Model model, Authentication authentication) {
-        System.out.println(authentication.getName());
+        if (authentication != null) {
+            model.addAttribute("user", authentication.getName());
+        }
         model.addAttribute("pageTitle", "Home");
         return "index";  // This must match src/main/resources/templates/index.html
     }
 
     @GetMapping("/messanger")
-    public String messanger(Model model) {
+    public String messanger(Model model, Authentication authentication) {
+        model.addAttribute("sender", userService.getUserByUsername(authentication.getName()).getId());
         model.addAttribute("pageTitle", "messanger");
         model.addAttribute("users", userService.getAll());
         return "messanger";

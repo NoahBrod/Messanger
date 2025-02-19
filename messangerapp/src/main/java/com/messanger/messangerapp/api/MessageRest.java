@@ -7,6 +7,7 @@ import com.messanger.messangerapp.entities.Message;
 import com.messanger.messangerapp.services.MessageService;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,9 +30,16 @@ public class MessageRest {
         return messageService.getAll();
     }
 
+    @GetMapping("/chat")
+    public List<Message> getChat(@RequestParam UUID sender, UUID receiver) {
+        return messageService.getChat(sender, receiver);
+    }
+    
+
     @PostMapping("/new")
-    public String newMessage(Message message) {
-        System.out.println(message.toString());
+    public String newMessage(String message, UUID sender, UUID receiver) {
+        Message sentMessage = new Message(message, sender, receiver);
+        messageService.save(sentMessage);
         return "RECIEVED";
     }
     

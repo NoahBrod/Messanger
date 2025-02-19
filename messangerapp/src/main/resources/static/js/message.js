@@ -1,29 +1,52 @@
-let listItem = $("<a>");
-    listItem.addClass("list-group-item list-group-item-action py-3 lh-tight");
-    listItem.attr("aria-current","true");
-let headerDiv = $("<div>");
-    headerDiv.addClass("d-flex w-100 align-items-center justify-content-between");
-let innerHeaderSt = $("<strong>");
-    innerHeaderSt.addClass("mb-1");
-let innerHeaderSm = $("<small>");
-let subHead = $("<div>");
-    subHead.addClass("col-10 mb-1 small");
+var receiver;
+var sender;
 
-    
+/**
+ * Retrieves chat for the current selected chat
+ */
+function loadChat() {
+    let empty = $("#empty");
+    empty.hide();
 
-function loadUsers() {
-    let listItem = $("<a>");
-    listItem.addClass("list-group-item list-group-item-action py-3 lh-tight");
-    listItem.attr("aria-current","true");
+    let chatBox = $("#chatBox");
 
+    let messages;
+
+    $.get("/api/v1/messages/chat",
+        {
+            sender: sender,
+            receiver: receiver
+        },
+        function (data, status) {
+            if (status == 'success') {
+                messages = data;
+                messages.forEach(element => {
+                    let chat = $("<div>");
+                    if (element.senderId == sender) {
+                        chat.addClass("message sent");
+                    } else {
+                        chat.addClass("message received");
+                    }
+                    chat.text(element.message);
+                    chat.addClass("p-3 ")
+                    chatBox.append(chat);
+                });
+                console.log(messages);
+            }
+        });
 }
 
 $(document).ready(function () {
-    $.get("/api/v1/messages/all", function (data, status) {
-        console.log("Data: " + data + "\nStatus: " + status);
-    });
+    // setting current user id
+    sender = $("#sender").data("id");
 
-    console.log("Message from Thymeleaf:", messageData);
+    // sets the current chat id and loads the chat
+    $(".list-group-item").click(function () {
+        if (receiver != $(this).data("id")) {
+            receiver = $(this).data("id");
+            loadChat();
+        }
+    });
 
     $("#chatForm").submit(function (event) {
         event.preventDefault();
@@ -36,10 +59,12 @@ $(document).ready(function () {
 
             $.post("/api/v1/messages/new",
                 {
-                    message: "Donald Duck",
+                    message: messageText,
+                    sender: sender,
+                    receiver: receiver
                 },
                 function (data, status) {
-                    alert("Data: " + data + "\nStatus: " + status);
+                    console.log(status);
                 });
 
             chatBox.append(messageDiv);

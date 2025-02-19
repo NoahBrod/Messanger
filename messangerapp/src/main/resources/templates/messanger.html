@@ -15,34 +15,11 @@
     <link rel="stylesheet" href="/css/messanger.css">
     <script src="/js/listgroup.js"></script>
     <script src="/js/message.js"></script>
-
-    <script>
-        var messageData = /*[[${message}]]*/ '';
-    </script>
-
-    <style>
-        .bd-placeholder-img {
-            font-size: 1.125rem;
-            text-anchor: middle;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            user-select: none;
-        }
-
-        @media (min-width: 768px) {
-            .bd-placeholder-img-lg {
-                font-size: 3.5rem;
-            }
-
-            .scrollarea {
-                overflow-y: auto;
-            }
-        }
-    </style>
 </head>
 
 <body>
     <!-- <nav th:replace="~{fragments/navbar :: navbar}"></nav> -->
+    <input id="sender" type="text" th:data-id="${sender}" hidden>
 
     <main class="bg-light">
         <div class="container d-flex" style="width: 100vw;">
@@ -55,7 +32,7 @@
                     </a>
 
                     <div class="list-group list-group-flush border-bottom scrollarea">
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true" th:each="user : ${users}" th:data-id="${user.id}">
+                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true" th:each="user : ${users}" th:if="${user.id} != ${sender}" th:data-id="${user.id}">
                             <div class="d-flex w-100 align-items-center justify-content-between">
                                 <strong class="mb-1" th:text="${user.username}"></strong>
                                 <small>Wed</small>
@@ -64,114 +41,17 @@
                                 date.
                             </div>
                         </a>
-                        <!-- <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
-                                <small>Tues</small>
-                            </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
-                                date.
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
-                                <small>Mon</small>
-                            </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
-                                date.
-                            </div>
-                        </a>
-
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
-                                <small>Wed</small>
-                            </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
-                                date.
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
-                                <small>Tues</small>
-                            </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
-                                date.
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
-                                <small>Mon</small>
-                            </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
-                                date.
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
-                                <small>Wed</small>
-                            </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
-                                date.
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
-                                <small>Tues</small>
-                            </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
-                                date.
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
-                                <small>Mon</small>
-                            </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
-                                date.
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
-                                <small>Wed</small>
-                            </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
-                                date.
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
-                                <small>Tues</small>
-                            </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
-                                date.
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action py-3 lh-tight">
-                            <div class="d-flex w-100 align-items-center justify-content-between">
-                                <strong class="mb-1">List group item heading</strong>
-                                <small>Mon</small>
-                            </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
-                                date.
-                            </div>
-                        </a> -->
                     </div>
                 </div>
             </div>
 
             <div class="container-fluid bg-white" id="chatcontainer">
-                <div class="d-flex flex-column" id="chatBox">
-                    <div class="message received">Hi</div>
-                    <div class="message sent">Hey</div>
+                <div id="empty">
+                    <h1 class="display-5">Select a Chat</h1>
+                </div>
+                <div class="d-flex flex-column" id="chatBox" hidden>
+                    <!-- <div class="message received">Hi</div>
+                    <div class="message sent">Hey</div> -->
                 </div>
 
                 <div class="" id="chatInput">
