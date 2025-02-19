@@ -36,6 +36,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
                 (requests) -> requests
                         .requestMatchers("/", "/home", "/register", "/login*").permitAll()
+                        .requestMatchers("/profile", "/messages").hasRole("USER")
                         .anyRequest().authenticated())
                 .formLogin((form) -> form
                         .loginPage("/login").defaultSuccessUrl("/", true)
@@ -51,7 +52,9 @@ public class SecurityConfig {
                             }
 
                         }))
-                .logout((logout) -> logout.logoutSuccessUrl("/login?logout").permitAll());
+                .logout((logout) -> logout.logoutSuccessUrl("/login?logout").permitAll())
+                .rememberMe((token) -> token
+                        .tokenValiditySeconds(300));
 
         return http.build();
     }
