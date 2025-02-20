@@ -3,6 +3,7 @@ package com.messanger.messangerapp.entities;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import groovy.transform.ToString;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +15,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@ToString
 @NoArgsConstructor
 public class Message {
     @Id

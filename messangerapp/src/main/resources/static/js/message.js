@@ -1,6 +1,9 @@
 var receiver;
 var sender;
 
+var socket = new SockJS('/Mappchat');
+var stompClient = Stomp.over(socket);
+
 /**
  * Retrieves chat for the current selected chat
  */
@@ -32,18 +35,40 @@ function loadChat() {
                     chatBox.append(chat);
                 });
                 console.log(messages);
+
+                chatBox.scrollTop(chatBox.prop("scrollHeight"));
             }
         });
+}
+
+function showMessage(message) {
+    let chatBox = $("#chatBox");
+    console.log(message);
+
+    let chat = $("<div>");
+    chat.addClass("message received");
+    chat.text(message);
+    chat.addClass("p-3 ");
+    chatBox.append(chat);
+    chatBox.scrollTop(chatBox.prop("scrollHeight"));
 }
 
 $(document).ready(function () {
     // setting current user id
     sender = $("#sender").data("id");
 
+    stompClient.connect({}, function (frame) {
+        stompClient.subscribe('/user/' + sender + '/queue/messages', function (message) {
+            console.log("RECEIVED")
+            showMessage(message.body);
+        });
+    });
+
     // sets the current chat id and loads the chat
     $(".list-group-item").click(function () {
         if (receiver != $(this).data("id")) {
             receiver = $(this).data("id");
+            $("#chatBox").empty();
             loadChat();
         }
     });
@@ -53,7 +78,7 @@ $(document).ready(function () {
         let inputField = $("#messageInput");
         let messageText = inputField.val().trim();
 
-        if (messageText != "") {
+        if (messageText != "" && receiver) {
             let chatBox = $("#chatBox");
             let messageDiv = $("<div>").addClass("message sent").text(messageText);
 
@@ -66,6 +91,18 @@ $(document).ready(function () {
                 function (data, status) {
                     console.log(status);
                 });
+
+            console.log(JSON.stringify({
+                message: messageText,
+                sender: sender,
+                receiver: receiver
+            }));
+
+            stompClient.send("/app/send", {}, JSON.stringify({
+                message: messageText,
+                sender: sender,
+                receiver: receiver
+            }));
 
             chatBox.append(messageDiv);
             chatBox.scrollTop(chatBox.prop("scrollHeight"));
