@@ -2,6 +2,9 @@ package com.messanger.messangerapp.entities;
 
 import java.util.UUID;
 
+import lombok.ToString;
+
+@ToString
 public class DTOMessage {
     private String message;
     private UUID sender;

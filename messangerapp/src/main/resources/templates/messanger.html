@@ -37,11 +37,12 @@
                         <a href="#" class="list-group-item list-group-item-action py-3 lh-tight" aria-current="true" th:each="user : ${users}" th:if="${user.id} != ${sender}" th:data-id="${user.id}">
                             <div class="d-flex w-100 align-items-center justify-content-between">
                                 <strong class="mb-1" th:text="${user.username}"></strong>
-                                <small>Wed</small>
+                                <small class="active" hidden="true">New</small>
+                                <!-- <i class="bi bi-dot"></i> -->
                             </div>
-                            <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
+                            <!-- <div class="col-10 mb-1 small">Some placeholder content in a paragraph below the heading and
                                 date.
-                            </div>
+                            </div> -->
                         </a>
                     </div>
                 </div>

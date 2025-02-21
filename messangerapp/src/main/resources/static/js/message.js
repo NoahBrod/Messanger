@@ -43,14 +43,19 @@ function loadChat() {
 
 function showMessage(message) {
     let chatBox = $("#chatBox");
-    console.log(message);
 
-    let chat = $("<div>");
-    chat.addClass("message received");
-    chat.text(message);
-    chat.addClass("p-3 ");
-    chatBox.append(chat);
-    chatBox.scrollTop(chatBox.prop("scrollHeight"));
+    if (message.sender == receiver) {
+        let chat = $("<div>");
+        chat.addClass("message received");
+        chat.text(message.message);
+        chat.addClass("p-3 ");
+        chatBox.append(chat);
+        chatBox.scrollTop(chatBox.prop("scrollHeight"));
+    } else {
+        console.log("NEW")
+        $('a[data-id="' + message.sender + '"]').find('small').attr("hidden", false);
+    }
+
 }
 
 $(document).ready(function () {
@@ -59,8 +64,7 @@ $(document).ready(function () {
 
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/user/' + sender + '/queue/messages', function (message) {
-            console.log("RECEIVED")
-            showMessage(message.body);
+            showMessage(JSON.parse(message.body));
         });
     });
 
@@ -70,7 +74,9 @@ $(document).ready(function () {
             receiver = $(this).data("id");
             $("#chatBox").empty();
             loadChat();
+            $('a[data-id="' + receiver + '"]').find("small").attr("hidden", true);
         }
+        
     });
 
     $("#chatForm").submit(function (event) {
