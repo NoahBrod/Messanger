@@ -1,10 +1,10 @@
-package com.messanger.messangerapp;
+package com.messenger.messengerapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MessangerappApplicationTests {
+class MessengerappApplicationTests {
 
 	@Test
 	void contextLoads() {
